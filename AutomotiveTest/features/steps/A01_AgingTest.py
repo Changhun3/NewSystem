@@ -106,7 +106,7 @@ def step_impl(context):
 def step_impl(context):
     try:
         # 수행된 결과와 기대 결과를 비교하여 PAss or Fail 여부 판단 #################################################
-        print("test3")
+        print("then Test")
 
         while True:
             time.sleep(0.1)
