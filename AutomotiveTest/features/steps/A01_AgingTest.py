@@ -93,7 +93,6 @@ def step_impl(context):
             print("## END ######################################################################################### ##")
             print(" ")
             print(" ")
-            print(" ")
 
     except Exception as e:
         print(e)
