@@ -73,9 +73,9 @@ def step_impl(context):
             api.Seek_Up(5)
             api.Seek_Up(40)
 
-            # Step 4 - USB 음악을 910초 대기 시간으로 수행한다. ##########
-            print("## Step 4 - USB 음악을 910초 대기 시간으로 수행한다.")
-            api.Enter_USB_Music_Screen(910)
+            # Step 4 - Yandex 음악을 910초 대기 시간으로 수행한다. ##########
+            print("## Step 4 - Yandex 음악을 910초 대기 시간으로 수행한다.")
+            api.Enter_Yandex_Music_Screen(910)
 
             # Step 5 - BT Audio Play를 910초 대기 시간으로 수행한다. ##########
             print("## Step 5 - BT Audio Play를 910초 대기 시간으로 수행한다.")
