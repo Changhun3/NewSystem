@@ -41,10 +41,12 @@ def step_impl(context):
 def step_impl(context):
     try:
         start_time = time.time()
-        end_time = start_time + (60 * 60 * 120)
+        #end_time = start_time + (60 * 60 * 120)
+        end_time = start_time + (60)
         Test_Result = True
 
-        while((time.time()) < end_time):
+        #while((time.time()) < end_time):
+        while ((time.time()) < end_time):
             # 주어진 Action 및 Step에 따라 Test Script 작성 #################################################
             # Step 1 - BAT Off 동작을 5초 대기 시간으로 수행한다. ##########
             print("## Start ####################################################################################### ##")
@@ -107,8 +109,9 @@ def step_impl(context):
     try:
         # 수행된 결과와 기대 결과를 비교하여 PAss or Fail 여부 판단 #################################################
         print("then Test")
+        Test_Result = True
 
-        while True:
+        """while True:
             time.sleep(0.1)
 
             if keyboard.is_pressed(80):
@@ -117,7 +120,7 @@ def step_impl(context):
                 api.CameraStop()
                 api.adb_test()
                 time.sleep(3)
-                break
+                break"""
 
     except Exception as e:
         print(e)
