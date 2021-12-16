@@ -172,6 +172,8 @@ class API_Class():
         # Yandex Icon tap
         print("# Tap Yandex Icon")
         os.system("adb shell input tap " + str(bYandex_Icon[0]) + " " + str(bYandex_Icon[1]))
+        time.sleep(3)
+        os.system("adb shell input keyevent 85")
         time.sleep(wait_time)
 
     # ADB - Key 관련 동작 API ############################################################################

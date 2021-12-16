@@ -33,13 +33,13 @@ class USBCamera():
 
     def camera_capture(self):
         #print("이미지 캡쳐")
-        now = datetime.datetime.now().strftime("%d_%H-%M-%S")
+        now = datetime.datetime.now().strftime("%Y/%m/%d_%H-%M-%S")
         cv2.imwrite("./data/" + "Capture" + str(now) + ".png", self.image_frame)
         #return ("./data/" + "Capture" + str(now) + ".png", self.image_frame)
 
     def camera_issue(self):
         #print("Error! 이미지 캡쳐")
-        now = datetime.datetime.now().strftime("%d_%H-%M-%S")
+        now = datetime.datetime.now().strftime("%Y/%m/%d_%H-%M-%S")
         cv2.imwrite("./data/" + "Issue_" + str(now) + ".png", self.image_frame)
 
     def camera_stop(self):
@@ -105,7 +105,7 @@ class USBCamera():
             time.sleep(0.7)
 
         print("# No Match Image")
-        now = datetime.datetime.now().strftime("%d_%H-%M-%S")
+        now = datetime.datetime.now().strftime("%Y/%m/%d_%H-%M-%S")
         cv2.imwrite("./data/" + "No_Boot_Image_" + str(now) + ".png", self.image_frame)
         return False
 

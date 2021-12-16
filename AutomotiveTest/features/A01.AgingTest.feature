@@ -9,7 +9,7 @@ Feature: Avtovaz_AgingTest
     BAT Off 동작을 5초 대기 시간으로 수행한다.
     BAT On 동작을  120초 대기 시간으로 수행한다.
     Radio CH을 1 > 2 > 3 > 1 동작을 40초 간격으로 수행한다.
-    USB 음악을 910초 대기 시간으로 수행한다.
+    Yandex 음악을 910초 대기 시간으로 수행한다.
     BT Audio Play를 910초 대기 시간으로 수행한다.
     Navigation 항목을 20초 대기 시간으로 진입한다.
     Radio 항목을 20초 대기 시간으로 진입한다.
