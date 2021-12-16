@@ -60,7 +60,7 @@ def step_impl(context):
             # time.sleep(5)  # ADB 연결 이슈로 인해 해당 Step은 Comment 처리
 
             # Step 3 - Radio CH을 1 > 2 > 3 > 1 동작을 40초 간격으로 수행한다. ##########
-            print("## Step 3 - Radio CH을 1 > 2 > 3 > 1 동작을 40초 간격으로 수행한다.")
+            print("## Step 3 - Radio CH을 1 > 2 > 3 > 1 동작을 20초 간격으로 10회 수행한다.(약 600초)")
             # ## FM-Radio 항목 진입
             api.Enter_FM_Radio_Screen(5)
 
@@ -75,8 +75,8 @@ def step_impl(context):
             api.Seek_Up(5)
             api.Seek_Up(40)
 
-            # Step 4 - Yandex 음악을 910초 대기 시간으로 수행한다. ##########
-            print("## Step 4 - Yandex 음악을 910초 대기 시간으로 수행한다.")
+            # Step 4 - Yendex 음악을 910초 대기 시간으로 수행한다. ##########
+            print("## Step 4 - Yendex Music을 play하고 40초 간격으로 20번 수행한다.(약 800초)")
             api.Enter_Yandex_Music_Screen(910)
 
             # Step 5 - BT Audio Play를 910초 대기 시간으로 수행한다. ##########
