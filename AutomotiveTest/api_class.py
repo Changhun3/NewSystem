@@ -173,10 +173,15 @@ class API_Class():
         print("# Tap Yandex Icon")
         os.system("adb shell input tap " + str(bYandex_Icon[0]) + " " + str(bYandex_Icon[1]))
         time.sleep(3)
-        # Play 여부 확인 후, Play 버튼 동작 수행 하는 내용 추가 필요
-        #
-        #
-        os.system("adb shell input keyevent 85")
+
+        # Play 여부 확인 후, Play 버튼 동작 수행
+        PlayImage = "./referenceimage/PlayImage.png"
+        matchResult = camera.camera_waitImage(PlayImage)
+
+        if matchResult:
+            print("Yandex Music Play")
+            os.system("adb shell input keyevent 85")
+
         time.sleep(wait_time)
 
     # ADB - Key 관련 동작 API ############################################################################
