@@ -41,12 +41,10 @@ def step_impl(context):
 def step_impl(context):
     try:
         start_time = time.time()
-        #end_time = start_time + (60 * 60 * 120)
-        end_time = start_time + (60)
+        end_time = start_time + (60 * 60 * 120)
         Test_Result = True
 
-        #while((time.time()) < end_time):
-        while ((time.time()) < end_time):
+        while((time.time()) < end_time):
             # 주어진 Action 및 Step에 따라 Test Script 작성 #################################################
             # Step 1 - BAT Off 동작을 5초 대기 시간으로 수행한다. ##########
             print("## Start ####################################################################################### ##")
@@ -65,7 +63,7 @@ def step_impl(context):
             api.Enter_FM_Radio_Screen(5)
 
             for i in range(0, 10):
-                # ## 3개 라디오 채널을 40초 간격으로 탭 동작 수행 (최초 진입시 1번 채널이 출력되고 있음
+                # ## 3개 라디오 채널을 20초 간격으로 탭 동작 수행 (최초 진입시 1번 채널이 출력되고 있음)
                 # ### 2번 채널 선택
                 api.Seek_Down(20)
 
