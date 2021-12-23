@@ -5,6 +5,7 @@ from ctypes import *
 
 class AIBOX():
     aibox = windll.LoadLibrary('.\data\PCI-Dask64.dll')
+    # Power on/off DIO 를 C로 되어 있는 PCI-Dask64.dll을 download 받아서 data에 넣어 놓고 여기서 불러와서 사용 함.
     print(aibox)
 
     aibox.Register_Card(31, 0)
