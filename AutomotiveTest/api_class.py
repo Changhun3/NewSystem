@@ -19,6 +19,8 @@ swipeLeft = configuration[MODEL]["Swipe_left"]
 swipeRight = configuration[MODEL]["Swipe_right"]
 swipeDown = configuration[MODEL]["Swipe_down"]
 swipeDuration = configuration[MODEL]["Swipe_duration"]
+# Direct command : adb shell input swipe 10(x1) 10(y1) 10(x2) 10(y2)
+
 
 # 각 버튼의 Tap 위치 설정
 bBack_sAllLauncher = configuration[MODEL]["bBack_sAllLauncher"]
@@ -127,7 +129,7 @@ class API_Class():
 
     def Enter_Navi_Screen(self, wait_time=5):
         print("#Entered Navi Screen.")
-        os.system("adb shell input keyevent 3")
+        os.system("adb shell input tap " + str(bNavi_Button[0]) + " " + str(bNavi_Button[1]))
         time.sleep(wait_time)
 
     def Enter_FM_Radio_Screen(self, wait_time=3):
