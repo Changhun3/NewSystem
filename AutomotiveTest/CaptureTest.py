@@ -9,8 +9,6 @@ api = api_class
 while True:
     time.sleep(0.1)
 
-    api.Enter_Yandex_Music_Screen(3)
-
     if keyboard.is_pressed(80):
         api.CameraCapture()
     elif keyboard.is_pressed('delete'):
