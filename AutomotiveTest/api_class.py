@@ -61,12 +61,20 @@ bYandex_Icon = configuration[MODEL]["bYandex_Icon"]
 Camera_Start = camera.camera_start
 Camera_Stop = camera.camera_stop
 Camera_Capture = camera.camera_capture
+Camera_Reboot = camera.camera_RebootDetect
+Camera_Freeze = camera.camera_FreezeDetect
+
 th1 = threading.Thread(target=Camera_Start)
+th2 = threading.Thread(target=Camera_Reboot)
+th3 = threading.Thread(target=Camera_Freeze)
 
 # Device ID
 DeviceID = '00d6f7955f1c'
 
 class API_Class():
+    rebootIndicator = False
+    freezeIndicator = False
+
     def __init__(self):
         # ADB 연결
         print("# adb connect")
@@ -94,6 +102,31 @@ class API_Class():
         os.system("adb shell input tap 20 300")
         time.sleep(3)
 
+    # Reboot 및 Freeze 감지 API #######################################################################################
+    def rebootDetect(self, value):
+        print("# Reboot 감지 동작 Enable")
+        self.rebootIndicator = value
+
+        if self.rebootIndicator == True:
+            print("Reboot 감지 동작 시작")
+            th2.start()
+        else:
+            print("Reboot 감지 동작 중단")
+            th2.join()
+
+    def freezeDetect(self, value):
+        print("# Freeze 감지 동작 Enable")
+        self.freezeIndicator = value
+
+        if self.rebootIndicator == True:
+            print("Freeze 감지 동작 시작")
+            th3.start()
+        else:
+            print("Freeze 감지 동작 중단")
+            th3.join()
+
+
+    # Camera 및 Image 비교 관련 API ###################################################################################
     def ImageCompareResult(self, referenceImage):
         result = camera.camera_detectImage(referenceImage)
         if result:
@@ -104,7 +137,6 @@ class API_Class():
             camera.camera_issue()
             return False
 
-    # Camera 및 Image 비교 관련 API ###################################################################################
     def CameraCapture(self):
         print("# Screen Capture")
         Camera_Capture()
@@ -175,8 +207,8 @@ class API_Class():
         time.sleep(3)
 
         # Play 여부 확인 후, Play 버튼 동작 수행
-        PlayImage = "./referenceimage/PlayImage.png"
-        matchResult = camera.camera_waitImage(PlayImage)
+        playImage = "./referenceimage/PlayImage.png"
+        matchResult = camera.camera_waitImage(playImage)
 
         if matchResult:
             print("Yandex Music Play")
@@ -240,8 +272,8 @@ class API_Class():
             while count < 5:
                 aibox.bat_on()
                 time.sleep(5)
-                BootImage = "./referenceimage/BootImage.png"
-                matchResult = camera.camera_waitImage(BootImage)
+                bootImage = "./referenceimage/BootImage.png"
+                matchResult = camera.camera_waitImage(bootImage)
 
                 if matchResult:
                     print("Detected BootImage!")

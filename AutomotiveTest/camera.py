@@ -135,5 +135,15 @@ class USBCamera():
             print("# No search")
             return False
 
+    def camera_RebootDetect(self):
+        #print("Error! 이미지 캡쳐")
+        now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
+        cv2.imwrite("./data/" + "Issue_" + str(now) + ".png", self.image_frame)
+
+    def camera_FreezeDetect(self):
+        #print("Error! 이미지 캡쳐")
+        now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
+        cv2.imwrite("./data/" + "Issue_" + str(now) + ".png", self.image_frame)
+
 
 camera = USBCamera()
