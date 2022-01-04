@@ -32,7 +32,7 @@ th1 = threading.Thread(target=Camera_Start)
 th2 = threading.Thread(target=Camera_Reboot)
 th3 = threading.Thread(target=Camera_Freeze)
 
-# Device ID
+# Device ID. cmd에 "adb devices" 치면 나옴
 DeviceID = '00d6f7955f1c'
 
 class API_Class():
