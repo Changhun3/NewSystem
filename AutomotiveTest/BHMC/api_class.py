@@ -328,6 +328,18 @@ class API_Class():
         aibox.bat_off()
         time.sleep(wait_time)
 
+    def Swipe(self, swipeX0, swipeY0, swipeX1, swipeY1, duration=swipeDuration):
+        print("# Swipe Action!")
+        os.system("adb shell input tap " + str(swipeX0) + " " + str(swipeY0) + " " + str(swipeX1) + " " + str(swipeY1) + " " + str(duration))
+        time.sleep(3)
+
+
+
+
+
+
+
+
 
 
 
