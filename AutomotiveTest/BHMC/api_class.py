@@ -42,6 +42,15 @@ bBTSetting_sSetting = configuration["bBTSetting_sSetting"]
 bBTTurnOn_sBTSetting = configuration["bBTTurnOn_sBTSetting"]
 bBTTurnOff_sBTSetting = configuration["bBTTurnOff_sBTSetting"]
 
+bRadio_sP1 = configuration["bRadio_sP1"]
+bRadio_sP2 = configuration["bRadio_sP2"]
+bRadio_sP3 = configuration["bRadio_sP3"]
+bRefresh = configuration["bRefresh"]
+bSlideshow = configuration["bSlideshow"]
+bSlideshowfivesec = configuration["bSlideshowfivesec"]
+bLanguageCh_sMainLauncher = configuration["bLanguageCh_sMainLauncher"]
+bLanguageEn_sMainLauncher = configuration["bLanguageEn_sMainLauncher"]
+bLanguageKo_sMainLauncher = configuration["bLanguageKo_sMainLauncher"]
 
 # Avtovaz #######################################################################
 bHome_Button = configuration["bHome_Button"]
@@ -161,6 +170,8 @@ class API_Class():
         os.system("adb shell input tap " + str(bNavi_Button[0]) + " " + str(bNavi_Button[1]))
         time.sleep(wait_time)
 
+# Avtova꺼....
+    '''
     def Enter_FM_Radio_Screen(self, wait_time=3):
         print("#Entered FM Radio Screen.")
         # Media 버튼
@@ -171,6 +182,20 @@ class API_Class():
         print("# Tap Radio Icon")
         os.system("adb shell input tap " + str(bRadio_Icon[0]) + " " + str(bRadio_Icon[1])) #################### 질문 왜 self.cis.tap(bList_sMediaMusic[0], bList_sMediaMusic[1]) 형식이 아닌지
         time.sleep(wait_time)
+    '''
+
+# BHMC 꺼....
+    def Enter_Radio_Screen(self):
+        print("#Entered Radio_Screen.")
+        os.system("adb shell input swipe " + str(bRadio_sMainLauncher[0]) + " " + str(bRadio_sMainLauncher[1]))
+        self.cis.swipe(swipeRight[0], swipeRight[1], swipeRight[2], swipeRight[3], duration=swipeDuration) #### 모르겠음....
+        time.sleep(3)
+        os.system("adb shell input tap " + str(bRadio_sMainLauncher[0]) + " " + str(bRadio_sMainLauncher[1]))
+        time.sleep(3)
+#        self.cis.keep(lambda: self.cis.wait_image("/opt/hats/scripts/dn8c/sqe/image/IMG_radio.jpg", timeout=3, region=None, threshold=0.9, failure_message="It's not radio mode."))
+
+
+
 
     def Enter_USB_Music_Screen(self, wait_time=3):
         print("#Entered USB Music Screen.")
@@ -306,6 +331,21 @@ class API_Class():
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    '''
     # ## 이전 API #####################################################################################################
     def Play(self):
         print("#Selected 'Play' button.")
@@ -623,5 +663,5 @@ class API_Class():
         else:
             time.sleep(wait_time-1)
 
-
+    '''
 api_class = API_Class()
