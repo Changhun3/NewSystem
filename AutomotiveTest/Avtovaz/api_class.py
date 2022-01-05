@@ -32,6 +32,8 @@ th1 = threading.Thread(target=Camera_Start)
 th2 = threading.Thread(target=Camera_Reboot)
 th3 = threading.Thread(target=Camera_Freeze)
 
+# Device ID. cmd에 "adb devices" 치면 나옴
+DeviceID = '00d6f7955f1c'
 # Device ID
 deviceFile = open('./data/DeviceID.txt', mode='rt', encoding='utf-8')
 DeviceID = deviceFile.readline()

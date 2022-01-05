@@ -16,7 +16,8 @@ def step_impl(context):
         Test_Result = True
         # 카메라 및 Power 장비 Initation 및 연결상태 확인 #################################################
         # BAT Off & On 동작 후, 초기화면 출력 확인
-        time.sleep(5)
+        api.BAT_Off(5)
+        api.BAT_On(60)
 
         # Reboot 감지 및 Freeze 여부 확인 정의 ############################################################
         # Reboot 감지여부 설정
