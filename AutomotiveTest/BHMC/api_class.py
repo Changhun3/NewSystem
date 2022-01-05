@@ -8,7 +8,7 @@ import threading
 # #####################################
 configuration = eval(open("./data/data.conf").read())
 
-# DN8C #######################################################################
+# BHMC #######################################################################
 # Swipe 관련 옵션 설정
 swipeRoofPopupDown = configuration["Swipe_roofPopupDown"]
 swipeUp = configuration["Swipe_up"]
