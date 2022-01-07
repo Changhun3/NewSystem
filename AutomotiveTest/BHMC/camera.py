@@ -78,7 +78,7 @@ class USBCamera():
             print("mac_val :: " + str(max_val))
             return False
 
-    def camera_waitImage(self, detectImagePath, waitTime=10):
+    def camera_waitDetectImage(self, detectImagePath, waitTime=10):
         startTime = time.time()
         endTime = startTime + waitTime
 
