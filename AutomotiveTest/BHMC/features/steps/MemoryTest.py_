@@ -1,0 +1,102 @@
+import os
+import sys
+import time
+
+SCRIPT_HOME = "/opt/hats/scripts/"
+model_name = "cis/cn7c/"
+sys.path.append(os.path.join(SCRIPT_HOME, model_name, "sqe/99_API"))
+from api_class import API_class
+
+api = API_class(cis)
+
+configuration = eval(open("../scripts/cis/cn7c/sqe/dn8c.conf").read())
+test_period = configuration["03-02_Stress_Test_Single_Mode_BTConnect_period"]
+
+count = 0
+
+while True:
+    count = count + 1
+    print "###### Count : {0} ######".format(count)
+
+    print "### Turn off bat. ###"
+    cis.bat_off()
+    time.sleep(5)
+
+    print "### Turn on bat. ###"
+    cis.bat_on()
+    time.sleep(120)
+
+    api.Enter_Refresh()
+    time.sleep(5)
+
+    api.Enter_Home_Screen()
+    time.sleep(5)
+
+    print "### Radio p1 p2 p3 p1 short ###"
+    api.Enter_Radio_Screen_Short()
+    time.sleep(5)
+
+    api.Enter_Home_Screen()
+    time.sleep(5)
+
+    print "### Radio p1 p2 p3 p1 ###"
+    api.Enter_Radio_Screen_Detail()
+    time.sleep(5)
+
+    api.Enter_Home_Screen()
+    time.sleep(5)
+
+#    print "### QQ play ###"
+#    api.Enter_QQMusic_Screen()
+#    time.sleep(803) # 900
+
+#    api.Enter_Home_Screen()
+#    time.sleep(5)
+
+    print "### Tingban play ###"
+    api.Enter_Tingban_Screen()
+    time.sleep(603) # 803
+
+    api.Enter_Home_Screen()
+    time.sleep(5)
+
+    print "### BT Audio play ###"
+    api.Enter_BTMusicPlay_Screen()
+    time.sleep(600) # 803
+
+    api.Enter_Home_Screen()
+    time.sleep(5)
+
+    print "### Enter navigation ###"
+    api.Enter_Navigation_Screen()
+    time.sleep(5)
+
+    api.Enter_Home_Screen()
+    time.sleep(5)
+
+    print "### User Change ###"
+    api.Enter_UserProfile_Screen() # [2, 2] [507, 468]
+    time.sleep(5)
+
+    api.Enter_Home_Screen_DU2()
+    time.sleep(5)
+
+    print "### Radio simple enter ###"
+    api.Enter_Radio_Simple_Screen()
+    time.sleep(5)
+
+    api.Enter_Home_Screen()
+    time.sleep(5)
+
+    print "### Baidu Apps - VR onoff weather ###"
+    api.Enter_Baidu_App_Screen()
+    time.sleep(5)
+
+    api.Enter_Home_Screen()
+    time.sleep(5)
+
+    print "### BT off > on ###"
+    api.Enter_BT_Setting_Screen() # 환경설정[5, 2] -> BT설정[4, 1] -> BT Menu 진입하여 Split Screen 없는 상태 default image 가지고 비교함.
+    api.BT_Turn_Off(60)
+    api.BT_Turn_On(10)
+    api.Enter_Home_Screen()

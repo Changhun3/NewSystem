@@ -4,6 +4,7 @@ from api_class import *
 import datetime
 import keyboard
 import time
+import os
 
 api = api_class
 
@@ -24,12 +25,12 @@ def step_impl(context):
         # Freeze 감지 여부 설정
 
         # 초기화면 확인
-        api.Home_Button(5)
+        """api.Home_Button(5)
         Home_Screen = "./referenceimage/HomeScreen.png"
         imagematchingResult = api.ImageCompareResult(Home_Screen)
 
         if imagematchingResult == False:
-            raise Exception("Error!!!")
+            raise Exception("Error!!!")"""
 
     except Exception as e:
         print(e)
@@ -39,7 +40,7 @@ def step_impl(context):
 # ########################################################################################################
 
 
-@when('A01.01 - 아래와 같은 Step으로 24 시간 동안 Aging Test를 수행하며, 동작중 Reboot 또는 crash 이슈는 없어야 한다.')
+@when('A01.01 - 아래와 같은 Step으로 1시간 단위 Test를 수행하며, 이후 BAT off/ong 후 반복 수행하여 Memory 관련 문제가 없어야 한다.')
 def step_impl(context):
     try:
         start_time = time.time()
@@ -56,16 +57,29 @@ def step_impl(context):
             # time.sleep(5) # ADB 연결 이슈로 인해 해당 Step은 Comment 처리
 
             # Step 2 - BAT On 동작을  120초 대기 시간으로 수행한다. ##########
-            print("## Step 2 - BAT On 동작을  120초 대기 시간으로 수행한다.")
-            api.BAT_On(120) #120
+            print("## Step 2 - BAT On 동작을  120초 대기 시간으로 수행한다. 이후 Refresh와 Home Screen으로 이동 동작 한다.")
+            api.BAT_On(50) #120
             # time.sleep(5)  # ADB 연결 이슈로 인해 해당 Step은 Comment 처리
-            
+
+            api.Enter_Refresh()
+
+            # api.Enter_Home_Screen(5)
+
             # Step 3 - Radio CH을 1 > 2 > 3 > 1 동작을 40초 간격으로 수행한다. ##########
-            print("## Step 3 - Radio CH을 play 하고 20초 간격으로 Next Track곡을 30회 수행한다.(약 600초)")
+            print("## Step 3 - Radio CH을 P1 > P2 > P3 > P1 동작을 20초 간격으로 10회 수행한다.(약 600초)")
             # ## FM-Radio 항목 진입
-            api.Enter_FM_Radio_Screen(5)
-            for i in range(0, 30):
-                api.Seek_Down(20)
+            api.Enter_Radio_Screen()
+            for i in range(0, 10):
+                os.system("adb shell input tap " + str(365) + " " + str(165))
+                time.sleep(20)
+                os.system("adb shell input tap " + str(365) + " " + str(245))
+                time.sleep(20)
+                os.system("adb shell input tap " + str(365) + " " + str(355))
+                time.sleep(20)
+
+            os.system("adb shell input tap " + str(365) + " " + str(165))
+            time.sleep(3)
+
             '''
             for i in range(0, 10):
                 # ## 3개 라디오 채널을 20초 간격으로 탭 동작 수행 (최초 진입시 1번 채널이 출력되고 있음)
@@ -78,6 +92,7 @@ def step_impl(context):
                 # ### 1번 채널 선택 (3번에서 2번 > 1번 채널로 전환)
                 api.Seek_Up(3)
                 api.Seek_Up(20)
+            '''
             '''
             # Step 4 - Yendex 음악을 910초 대기 시간으로 수행한다. ##########
             print("## Step 4 - Yendex Music을 play하고 10초 간격으로 Next Track곡을 80번 수행한다.(약 800초)")
@@ -107,7 +122,7 @@ def step_impl(context):
             print("## END ######################################################################################### ##")
             print(" ")
             print(" ")
-
+            '''
     except Exception as e:
         print(e)
         Test_Result = False

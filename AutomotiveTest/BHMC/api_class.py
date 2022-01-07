@@ -53,7 +53,7 @@ bLanguageEn_sMainLauncher = configuration["bLanguageEn_sMainLauncher"]
 bLanguageKo_sMainLauncher = configuration["bLanguageKo_sMainLauncher"]
 
 # Avtovaz #######################################################################
-bHome_Button = configuration["bHome_Button"]
+"""bHome_Button = configuration["bHome_Button"]
 bNavi_Button = configuration["bNavi_Button"]
 bMusic_Button = configuration["bMusic_Button"]
 bAudio_Button = configuration["bAudio_Button"]
@@ -62,7 +62,7 @@ bMusic_Mode_Button = configuration["bMusic_Mode_Button"]
 bRadio_Icon = configuration["bRadio_Icon"]
 bUSB_Icon = configuration["bUSB_Icon"]
 bBT_Icon = configuration["bBT_Icon"]
-bYandex_Icon = configuration["bYandex_Icon"]
+bYandex_Icon = configuration["bYandex_Icon"]"""
 
 
 # Camera Setting
@@ -77,7 +77,8 @@ th2 = threading.Thread(target=Camera_Reboot)
 th3 = threading.Thread(target=Camera_Freeze)
 
 # Device ID
-DeviceID = '00d6f7955f1c'
+deviceFile = open('./data/DeviceID.txt', mode='rt', encoding='utf-8')
+DeviceID = deviceFile.readline()
 
 class API_Class():
     rebootIndicator = False
@@ -162,8 +163,23 @@ class API_Class():
     # ADB - Menu 또는 특정 항목 관련 동작 API #########################################################################
     def Enter_Home_Screen(self, wait_time=5):
         print("#Entered Home Screen.")
-        os.system("adb shell input keyevent 3")
         time.sleep(wait_time)
+        if camera.camera_detectImage('./referenceImage/dkadsl.png'):
+            print("pass")
+        else:
+            print("fail")
+
+
+
+        if self.Ignore_Failure(lambda: self.cis.wait_image("/opt/hats/scripts/dn8c/sqe/image/IMG_homescreen.jpg", timeout=3, region=None, threshold=0.9, failure_message="")) == False:
+            os.system("adb shell input keyevent 3")
+            time.sleep(3)
+        if self.Ignore_Failure(lambda: self.cis.wait_image("/opt/hats/scripts/dn8c/sqe/image/IMG_homescreen.jpg", timeout=3, region=None, threshold=0.9, failure_message="")) == False:
+            self.swipe(swipeLeft[0], swipeLeft[1], swipeLeft[2], swipeLeft[3], duration=swipeDuration)
+            time.sleep(3)
+            self.swipe(swipeLeft[0], swipeLeft[1], swipeLeft[2], swipeLeft[3], duration=swipeDuration)
+            time.sleep(3)
+
 
     def Enter_Navi_Screen(self, wait_time=5):
         print("#Entered Navi Screen.")
@@ -193,7 +209,12 @@ class API_Class():
         time.sleep(3)
 #        self.cis.keep(lambda: self.cis.wait_image("/opt/hats/scripts/dn8c/sqe/image/IMG_radio.jpg", timeout=3, region=None, threshold=0.9, failure_message="It's not radio mode."))
 
-
+    def Enter_Refresh(self):
+        print("#Refresh")
+        os.system("adb shell input tap " + str(bRefresh[0]) + " " + str(bRefresh[1]))
+        time.sleep(3)
+        os.system("adb shell input tap " + str(bRefresh[0]) + " " + str(bRefresh[1]))
+        time.sleep(3)
 
 
     def Enter_USB_Music_Screen(self, wait_time=3):
@@ -306,7 +327,9 @@ class API_Class():
 
                 if wait_time > 40:
                     adb_connect = os.popen("adb devices").readlines()
+                    print(adb_connect)
                     for line in adb_connect:
+                        print(line)
                         if DeviceID in line:
                             print("Connected ADB Server!")
                             print(">>> " + line)
@@ -317,7 +340,7 @@ class API_Class():
                 print("Restart BAT Off/On..")
                 self.BAT_Off(5)
                 count += 1
-            return False
+            return True
         else:
             aibox.bat_on()
             time.sleep(wait_time)
@@ -329,7 +352,7 @@ class API_Class():
 
     def Swipe(self, swipeX0, swipeY0, swipeX1, swipeY1, duration=swipeDuration):
         print("# Swipe Action!")
-        os.system("adb shell input tap " + str(swipeX0) + " " + str(swipeY0) + " " + str(swipeX1) + " " + str(swipeY1) + " " + str(duration))
+        os.system("adb shell input swipe " + str(swipeX0) + " " + str(swipeY0) + " " + str(swipeX1) + " " + str(swipeY1) + " " + str(duration))
         time.sleep(3)
 
 
