@@ -187,8 +187,7 @@ class API_Class():
 # BHMC 꺼....
     def Enter_Radio_Screen(self):
         print("#Entered Radio_Screen.")
-        os.system("adb shell input swipe " + str(bRadio_sMainLauncher[0]) + " " + str(bRadio_sMainLauncher[1]))
-        self.cis.swipe(swipeRight[0], swipeRight[1], swipeRight[2], swipeRight[3], duration=swipeDuration) #### 모르겠음....
+        self.Swipe(swipeRight[0], swipeRight[1], swipeRight[2], swipeRight[3], duration=swipeDuration)
         time.sleep(3)
         os.system("adb shell input tap " + str(bRadio_sMainLauncher[0]) + " " + str(bRadio_sMainLauncher[1]))
         time.sleep(3)
