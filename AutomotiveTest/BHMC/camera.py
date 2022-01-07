@@ -106,7 +106,7 @@ class USBCamera():
 
         print("# No Match Image")
         now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
-        cv2.imwrite("./data/" + "No_Boot_Image_" + str(now) + ".png", self.image_frame)
+        cv2.imwrite("./data/" + "NotMatched_" + str(now) + ".png", self.image_frame)
         return False
 
 

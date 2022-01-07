@@ -297,7 +297,7 @@ class API_Class():
                 aibox.bat_on()
                 time.sleep(5)
                 bootImage = "./referenceimage/BootImage.png"
-                matchResult = camera.camera_waitImage(bootImage)
+                matchResult = camera.camera_waitDetectImage(bootImage)
 
                 if matchResult:
                     print("Detected BootImage!")

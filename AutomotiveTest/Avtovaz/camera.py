@@ -78,7 +78,7 @@ class USBCamera():
             print("mac_val :: " + str(max_val))
             return False
 
-    def camera_waitImage(self, detectImagePath, waitTime=10):
+    def camera_waitDetectImage(self, detectImagePath, waitTime=10):
         startTime = time.time()
         endTime = startTime + waitTime
 
@@ -106,7 +106,7 @@ class USBCamera():
 
         print("# No Match Image")
         now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
-        cv2.imwrite("./data/" + "No_Boot_Image_" + str(now) + ".png", self.image_frame)
+        cv2.imwrite("./data/" + "NotMatched_" + str(now) + ".png", self.image_frame)
         return False
 
 
