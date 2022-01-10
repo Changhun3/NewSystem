@@ -6,16 +6,18 @@ from behave import *
 import requests
 import json
 
-"""
+
 def before_all(context):
-    now = datetime.datetime.now()
-    test_date = now.strftime('%Y/%m/%d - %H:%M:%S')
-    print('== OTOPLUG Admin V2 API Test(staging) ======================================================================')
-    print("== " + test_date + "    ======================================================================")
-    print("==================================================================================================")
-    print("")
+    if os.path.isfile('./data/temp_freeze.png'):
+        os.remove('./data/temp_freeze.png')
 
+    if os.path.isfile('./data/temp_freeze_0.png'):
+        os.remove('./data/temp_freeze.png')
 
+    if os.path.isfile('./data/temp_freeze_1.png'):
+        os.remove('./data/temp_freeze.png')
+
+"""
 def after_all(context):
     print('===== After ALL =====')
     print('===========================================================================================================')
