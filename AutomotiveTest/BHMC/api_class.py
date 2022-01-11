@@ -156,13 +156,10 @@ class API_Class():
 
     # Camera 및 Image 비교 관련 API ###################################################################################
     def ImageCompareResult(self, referenceImage):
-        result = camera.camera_detectImage(referenceImage)
+        result = camera.camera_waitDetectImage(referenceImage)
         if result:
             return True
         else:
-            print("Not Matched Image!")
-            #print("max_val : " + max_val)
-            camera.camera_issue()
             return False
 
     def CameraCapture(self):

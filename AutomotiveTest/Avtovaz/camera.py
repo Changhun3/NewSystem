@@ -20,6 +20,8 @@ class USBCamera():
     test_value = True
     grabResult = None
 
+    test_rebootDetect = False
+
     def camera_start(self):
         while self.test_value:
             self.grabResult = self.camera.RetrieveResult(5000, pylon.TimeoutHandling_ThrowException)
@@ -78,7 +80,8 @@ class USBCamera():
             print("mac_val :: " + str(max_val))
             return False
 
-    def camera_waitDetectImage(self, detectImagePath, waitTime=10):
+    def camera_waitDetectImage(self, detectImagePath, waitTime=10, capture=True):
+        ######################### capture=true 면 waitimage를 사용하고, false면 사용하지 않음 의미, 값이 아예 없으면 True로 인식
         startTime = time.time()
         endTime = startTime + waitTime
 
@@ -86,6 +89,7 @@ class USBCamera():
             cv2.imwrite("./data/temp.png", self.image_frame)
             sourceimage_temp = cv2.imread("./data/temp.png")
             sourceimage = cv2.cvtColor(sourceimage_temp, cv2.COLOR_RGB2GRAY)
+            ########################### 시작하면 temp.png에 해당 전체 화면 image 한번찍고 시작 함.
 
             template_temp = cv2.imread(detectImagePath)
             template = cv2.cvtColor(template_temp, cv2.COLOR_RGB2GRAY)
@@ -105,8 +109,10 @@ class USBCamera():
             time.sleep(0.7)
 
         print("# No Match Image")
-        now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
-        cv2.imwrite("./data/" + "NotMatched_" + str(now) + ".png", self.image_frame)
+        if capture:
+            now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
+            cv2.imwrite("./data/" + "NoMatchImage_" + str(now) + ".png", self.image_frame)
+
         return False
 
 
@@ -141,9 +147,68 @@ class USBCamera():
         cv2.imwrite("./data/" + "Issue_" + str(now) + ".png", self.image_frame)
 
     def camera_FreezeDetect(self):
-        #print("Error! 이미지 캡쳐")
-        now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
-        cv2.imwrite("./data/" + "Issue_" + str(now) + ".png", self.image_frame)
+        # print("Error! 이미지 캡쳐")
+
+        while True:
+            if not (os.path.isfile('./data/temp_freeze.png')):
+                cv2.imwrite('./data/temp_freeze.png', self.image_frame)
+                time.sleep(600)
+                continue
+
+            sourceimage_temp = cv2.imread(self.image_frame)
+            sourceimage = cv2.cvtColor(sourceimage_temp, cv2.COLOR_RGB2GRAY)
+
+            template_temp = cv2.imread('./data/temp_freeze.png')
+            template = cv2.cvtColor(template_temp, cv2.COLOR_RGB2GRAY)
+
+            height, width, channel = sourceimage_temp.shape
+            # print(height, width, channel)
+
+            res = cv2.matchTemplate(sourceimage, template, cv2.TM_CCOEFF_NORMED)
+            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+            # print(min_val)
+            # print(max_val)
+
+            if (max_val > 0.96):
+                print("# Detected Freeze!!!")
+                now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
+                cv2.imwrite("./data/" + "FreezeIssue_" + str(now) + ".png", self.image_frame)
+
+            cv2.imwrite('./data/temp_freeze_1', self.image_frame)
+            time.sleep(600)
+
+        """
+        freezeImage = ['./data/temp_freeze_0.png', './data/temp_freeze_1.png']
+
+        while True:
+            if not(os.path.isfile(freezeImage[1])):
+                cv2.imwrite('./data/temp_freeze_1.png', self.image_frame)
+                time.sleep(600)
+                continue
+
+            cv2.imwrite(freezeImage[0], self.image_frame)
+            sourceimage_temp = cv2.imread(freezeImage[0])
+            sourceimage = cv2.cvtColor(sourceimage_temp, cv2.COLOR_RGB2GRAY)         
+
+            template_temp = cv2.imread(freezeImage[1])
+            template = cv2.cvtColor(template_temp, cv2.COLOR_RGB2GRAY)
+
+            height, width, channel = sourceimage_temp.shape
+            # print(height, width, channel)
+
+            res = cv2.matchTemplate(sourceimage, template, cv2.TM_CCOEFF_NORMED)
+            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+            # print(min_val)
+            #print(max_val)
+
+            if (max_val > 0.96):
+                print("# Detected Freeze!!!")
+                now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
+                cv2.imwrite("./data/" + "FreezeIssue_" + str(now) + ".png", self.image_frame)
+
+            cv2.imwrite('./data/temp_freeze_1.png', self.image_frame)
+            time.sleep(600)    
+        """
 
 
 camera = USBCamera()
