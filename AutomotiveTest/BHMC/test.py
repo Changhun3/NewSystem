@@ -13,6 +13,6 @@ for i in range(0, 1):  # 45
     api.Tingban_SeekDown(30)
     api.Tingban_SeekDown(30)
     api.Tingban_SeekUp(30)
-time.sleep(1)
+time.sleep(2)
 
 api.Enter_Home_Screen()
