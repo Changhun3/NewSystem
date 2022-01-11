@@ -49,10 +49,10 @@ def ign_off():
 
 
 connect()
-time.sleep(3)
-bat_off()
-time.sleep(5)
+time.sleep(1)
+#bat_off()
+#time.sleep(5)
 bat_on()
-time.sleep(5)
-disconnect()
+time.sleep(1)
+#disconnect()
 
