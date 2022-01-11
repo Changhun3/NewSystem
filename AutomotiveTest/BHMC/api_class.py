@@ -24,15 +24,34 @@ bBack_sAllLauncher = configuration["bBack_sAllLauncher"]
 bAgree_sMainLauncher = configuration["bAgree_sMainLauncher"]
 bQRCode_sMainLauncher = configuration["bQRCode_sMainLauncher"]
 bQQMusic_sMainLauncher = configuration["bQQMusic_sMainLauncher"]
+bTingban_sMainLauncher = configuration["bTingban_sMainLauncher"]
+bTingbanAudio_sSeekdown = configuration["bTingbanAudio_sSeekdown"]
+bTingbanAudio_sSeekUp = configuration["bTingbanAudio_sSeekUp"]
+bBaiduapps_sMainLauncher = configuration["bBaiduapps_sMainLauncher"]
+bBaiduVR_sMainLauncher = configuration["bBaiduVR_sMainLauncher"]
+bBaiduweather_sMainLauncher = configuration["bBaiduweather_sMainLauncher"]
 bMusic_sMainLauncher = configuration["bMusic_sMainLauncher"]
 bVideo_sMainLauncher = configuration["bVideo_sMainLauncher"]
 bImage_sMainLauncher = configuration["bImage_sMainLauncher"]
 bRadio_sMainLauncher = configuration["bRadio_sMainLauncher"]
 bUserProfile_sMainLauncher = configuration["bUserProfile_sMainLauncher"]
+bUserOne_sMainLauncher = configuration["bUserOne_sMainLauncher"]
+bUserTwo_sMainLauncher = configuration["bUserTwo_sMainLauncher"]
+bUserGuest_sMainLauncher = configuration["bUserGuest_sMainLauncher"]
 bSetting_sMainLauncher = configuration["bSetting_sMainLauncher"]
 bNavigation_sMainLauncher = configuration["bNavigation_sMainLauncher"]
 bCarlife_sMainLauncher = configuration["bCarlife_sMainLauncher"]
 bCall_sMainLauncher = configuration["bCall_sMainLauncher"]
+
+
+
+bBTAudio_sMusicLauncher = configuration["bBTAudio_sMusicLauncher"]
+bBTAudio_sSeekdown = configuration["bBTAudio_sSeekdown"]
+bBTAudio_AVc_sMusicLauncher = configuration["bBTAudio_AVc_sMusicLauncher"]
+bUSB_sMusicLauncher = configuration["bUSB_sMusicLauncher"]
+bUSB_sVideoLauncher = configuration["bUSB_sVideoLauncher"]
+bUSB_sImageLauncher = configuration["bUSB_sImageLauncher"]
+bList_sMediaMusic = configuration["bList_sMediaMusic"]
 
 bDisplay_sControlCenter = configuration["bDisplay_sControlCenter"]
 bSplit_sNavigation = configuration["bSplit_sNavigation"]
@@ -163,51 +182,28 @@ class API_Class():
     # ADB - Menu 또는 특정 항목 관련 동작 API #########################################################################
     def Enter_Home_Screen(self, wait_time=5):
         print("#Entered Home Screen.")
-        time.sleep(wait_time)
-        if camera.camera_detectImage('./referenceImage/dkadsl.png'):
-            print("pass")
+
+        if camera.camera_waitDetectImage('./referenceImage/HomeScreen.png', 10, False):
+            print("This is HomeScreen")
         else:
-            print("fail")
-
-
-
-        if self.Ignore_Failure(lambda: self.cis.wait_image("/opt/hats/scripts/dn8c/sqe/image/IMG_homescreen.jpg", timeout=3, region=None, threshold=0.9, failure_message="")) == False:
+            print("This is NOT HomeScreen")
             os.system("adb shell input keyevent 3")
-            time.sleep(3)
-        if self.Ignore_Failure(lambda: self.cis.wait_image("/opt/hats/scripts/dn8c/sqe/image/IMG_homescreen.jpg", timeout=3, region=None, threshold=0.9, failure_message="")) == False:
-            self.swipe(swipeLeft[0], swipeLeft[1], swipeLeft[2], swipeLeft[3], duration=swipeDuration)
-            time.sleep(3)
-            self.swipe(swipeLeft[0], swipeLeft[1], swipeLeft[2], swipeLeft[3], duration=swipeDuration)
-            time.sleep(3)
-
-
-    def Enter_Navi_Screen(self, wait_time=5):
-        print("#Entered Navi Screen.")
-        os.system("adb shell input tap " + str(bNavi_Button[0]) + " " + str(bNavi_Button[1]))
         time.sleep(wait_time)
 
-# Avtova꺼....
-    '''
-    def Enter_FM_Radio_Screen(self, wait_time=3):
-        print("#Entered FM Radio Screen.")
-        # Media 버튼
-        self.Music_Button(3) #########################질문 왜 b가 안붙는지?
-        self.Music_Mode_Button(3)
+    def Enter_Navigation_Screen(self):
+        print("#Entered Navigation_Screen.")
+        os.system("adb shell input keyevent 3")
+        time.sleep(10)
+        print("#Entered Home_Screen.")
+        os.system("adb shell input keyevent 3")
+        time.sleep(10)
 
-        # Radio Icon tap
-        print("# Tap Radio Icon")
-        os.system("adb shell input tap " + str(bRadio_Icon[0]) + " " + str(bRadio_Icon[1])) #################### 질문 왜 self.cis.tap(bList_sMediaMusic[0], bList_sMediaMusic[1]) 형식이 아닌지
-        time.sleep(wait_time)
-    '''
-
-# BHMC 꺼....
     def Enter_Radio_Screen(self):
         print("#Entered Radio_Screen.")
         self.Swipe(swipeRight[0], swipeRight[1], swipeRight[2], swipeRight[3], duration=swipeDuration)
         time.sleep(3)
         os.system("adb shell input tap " + str(bRadio_sMainLauncher[0]) + " " + str(bRadio_sMainLauncher[1]))
         time.sleep(3)
-#        self.cis.keep(lambda: self.cis.wait_image("/opt/hats/scripts/dn8c/sqe/image/IMG_radio.jpg", timeout=3, region=None, threshold=0.9, failure_message="It's not radio mode."))
 
     def Enter_Refresh(self):
         print("#Refresh")
@@ -216,7 +212,7 @@ class API_Class():
         os.system("adb shell input tap " + str(bRefresh[0]) + " " + str(bRefresh[1]))
         time.sleep(3)
 
-
+    ##### Avtovaz꺼..
     def Enter_USB_Music_Screen(self, wait_time=3):
         print("#Entered USB Music Screen.")
         # Media 버튼
@@ -228,16 +224,81 @@ class API_Class():
         os.system("adb shell input tap " + str(bUSB_Icon[0]) + " " + str(bUSB_Icon[1]))
         time.sleep(wait_time)
 
-    def Enter_BT_Music_Screen(self, wait_time=3):
-        print("#Entered BT Music Screen.")
-        # Media 버튼
-        self.Music_Button(3)
-        self.Music_Mode_Button(3)
+    def Enter_BTMusicPlay_Screen(self):
+        print("#Entered BTMusicPlay_Screen.")
+        self.Swipe(swipeRight[0], swipeRight[1], swipeRight[2], swipeRight[3], duration=swipeDuration)
+        time.sleep(3)
+        os.system("adb shell input tap " + str(bMusic_sMainLauncher[0]) + " " + str(bMusic_sMainLauncher[1]))
+        time.sleep(3)
+        os.system("adb shell input tap " + str(bBTAudio_sMusicLauncher[0]) + " " + str(bBTAudio_sMusicLauncher[1]))
+        time.sleep(3)
 
-        # BT Icon tap
-        print("# Tap BT Icon")
-        os.system("adb shell input tap " + str(bBT_Icon[0]) + " " + str(bBT_Icon[1]))
+    def BTMusic_SeekDown(self, wait_time=3):
+        print("#SeekDown in BT Music screen")
+        os.system("adb shell input tap " + str(bBTAudio_sSeekdown[0]) + " " + str(bBTAudio_sSeekdown[1]))
         time.sleep(wait_time)
+
+    def Enter_Tingban_Screen(self):
+        print("#Entered Tingban Screen.")
+        self.Swipe(swipeRight[0], swipeRight[1], swipeRight[2], swipeRight[3], duration=swipeDuration)
+        time.sleep(3)
+        os.system("adb shell input tap " + str(bTingban_sMainLauncher[0]) + " " + str(bTingban_sMainLauncher[1]))
+        time.sleep(3)
+
+    def Tingban_SeekDown(self, wait_time=3):
+        print("#SeekDown in Tingban Music screen")
+        os.system("adb shell input tap " + str(bTingbanAudio_sSeekdown[0]) + " " + str(bTingbanAudio_sSeekdown[1]))
+        time.sleep(wait_time)
+
+    def Tingban_SeekUp(self, wait_time=3):
+        print("#SeekUp in Tingban Music screen")
+        os.system("adb shell input tap " + str(bTingbanAudio_sSeekUp[0]) + " " + str(bTingbanAudio_sSeekUp[1]))
+        time.sleep(wait_time)
+
+    def Enter_UserProfile_Screen(self):
+        print("#Entered User Change_Screen > 2 > Guest > 1")
+        self.Swipe(swipeRight[0], swipeRight[1], swipeRight[2], swipeRight[3], duration=swipeDuration)
+        time.sleep(3)
+        os.system("adb shell input tap " + str(bUserProfile_sMainLauncher[0]) + " " + str(bUserProfile_sMainLauncher[1]))
+        time.sleep(3)
+        print("#User 2 change")
+        os.system("adb shell input tap " + str(bUserTwo_sMainLauncher[0]) + " " + str(bUserTwo_sMainLauncher[1]))
+        time.sleep(15)
+
+        self.Swipe(swipeRight[0], swipeRight[1], swipeRight[2], swipeRight[3], duration=swipeDuration)
+        time.sleep(3)
+        os.system("adb shell input tap " + str(bUserProfile_sMainLauncher[0]) + " " + str(bUserProfile_sMainLauncher[1]))
+        time.sleep(3)
+        print("#User Guest change")
+        os.system("adb shell input tap " + str(bUserGuest_sMainLauncher[0]) + " " + str(bUserGuest_sMainLauncher[1]))
+        time.sleep(15)
+
+        self.Swipe(swipeRight[0], swipeRight[1], swipeRight[2], swipeRight[3], duration=swipeDuration)
+        time.sleep(3)
+        os.system("adb shell input tap " + str(bUserProfile_sMainLauncher[0]) + " " + str(bUserProfile_sMainLauncher[1]))
+        time.sleep(3)
+        print("#User 1 change")
+        os.system("adb shell input tap " + str(bUserOne_sMainLauncher[0]) + " " + str(bUserOne_sMainLauncher[1]))
+        time.sleep(15)
+
+    def Enter_Baidu_App_Screen(self):
+        print("#Baidu_App_Screen")
+        self.Swipe(swipeRight[0], swipeRight[1], swipeRight[2], swipeRight[3], duration=swipeDuration)
+        time.sleep(3)
+        os.system("adb shell input tap " + str(bBaiduapps_sMainLauncher[0]) + " " + str(bBaiduapps_sMainLauncher[1]))
+        time.sleep(3)
+
+    def Enter_Baidu_VR_Screen(self):
+        print("#Entered Baidu VR Screen")
+        os.system("adb shell input tap " + str(bBaiduVR_sMainLauncher[0]) + " " + str(bBaiduVR_sMainLauncher[1]))
+        time.sleep(3)
+
+    def Enter_Baidu_Weather_Screen(self):
+        print("#Entered Baidu Weather Screen")
+        os.system("adb shell input tap " + str(bBaiduweather_sMainLauncher[0]) + " " + str(bBaiduweather_sMainLauncher[1]))
+        time.sleep(3)
+
+####### 삭 제 해 야 함
 
     def Enter_Yandex_Music_Screen(self, wait_time=3):
         print("#Entered Yandex Music Screen.")
@@ -259,6 +320,7 @@ class API_Class():
             os.system("adb shell input keyevent 85")
 
         time.sleep(wait_time)
+
 
     # ADB - Key 관련 동작 API ############################################################################
     def Seek_Up(self, wait_time=3):
@@ -340,7 +402,7 @@ class API_Class():
                 print("Restart BAT Off/On..")
                 self.BAT_Off(5)
                 count += 1
-            return True
+            return False #booting fail 되어도 계속 진행하려면 return True 로 변경 해서 진행.
         else:
             aibox.bat_on()
             time.sleep(wait_time)

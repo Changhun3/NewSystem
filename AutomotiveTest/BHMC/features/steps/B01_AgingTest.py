@@ -25,12 +25,12 @@ def step_impl(context):
         # Freeze 감지 여부 설정
 
         # 초기화면 확인
-        """api.Home_Button(5)
+        api.Enter_Home_Screen(5)
         Home_Screen = "./referenceimage/HomeScreen.png"
         imagematchingResult = api.ImageCompareResult(Home_Screen)
 
         if imagematchingResult == False:
-            raise Exception("Error!!!")"""
+            raise Exception("Error!!!")
 
     except Exception as e:
         print(e)
@@ -53,23 +53,23 @@ def step_impl(context):
             # Step 1 - BAT Off 동작을 5초 대기 시간으로 수행한다. ##########
             print("## Start ####################################################################################### ##")
             print("## Step 1 - BAT Off 동작을 5초 대기 시간으로 수행한다.")
-            api.BAT_Off(5)
+            # api.BAT_Off(5)
             # time.sleep(5) # ADB 연결 이슈로 인해 해당 Step은 Comment 처리
 
             # Step 2 - BAT On 동작을  120초 대기 시간으로 수행한다. ##########
             print("## Step 2 - BAT On 동작을  120초 대기 시간으로 수행한다. 이후 Refresh와 Home Screen으로 이동 동작 한다.")
-            api.BAT_On(50) #120
+            # api.BAT_On(50) #120
             # time.sleep(5)  # ADB 연결 이슈로 인해 해당 Step은 Comment 처리
 
             api.Enter_Refresh()
 
-            # api.Enter_Home_Screen(5)
+            api.Enter_Home_Screen()
 
-            # Step 3 - Radio CH을 1 > 2 > 3 > 1 동작을 40초 간격으로 수행한다. ##########
+            # Step 3 - Radio CH을 1 > 2 > 3 > 1 동작을 20초 간격 10회으로 수행한다. ##########
             print("## Step 3 - Radio CH을 P1 > P2 > P3 > P1 동작을 20초 간격으로 10회 수행한다.(약 600초)")
             # ## FM-Radio 항목 진입
             api.Enter_Radio_Screen()
-            for i in range(0, 10):
+            for i in range(0, 1): # 10
                 os.system("adb shell input tap " + str(365) + " " + str(165))
                 time.sleep(20)
                 os.system("adb shell input tap " + str(365) + " " + str(245))
@@ -80,49 +80,62 @@ def step_impl(context):
             os.system("adb shell input tap " + str(365) + " " + str(165))
             time.sleep(3)
 
-            '''
-            for i in range(0, 10):
-                # ## 3개 라디오 채널을 20초 간격으로 탭 동작 수행 (최초 진입시 1번 채널이 출력되고 있음)
-                # ### 2번 채널 선택
-                api.Seek_Down(20)
+            api.Enter_Home_Screen()
 
-                # ### 3번 채널 선택
-                api.Seek_Down(20)
+            # Step 4 - Tingban를 Play하고 30초 간격으로 Seekdown 2회, Seekup을 1회를 10번 수행한다. ##########
+            print("## Step 4 - Tingban를 Play하고 30초 간격으로 Seekdown 2회, Seekup을 1회를 10번 수행한다.(약 900초)")
+            api.Enter_Tingban_Screen()
+            for i in range(0, 1): # 45
+                api.Tingban_SeekDown(30)
+                api.Tingban_SeekDown(30)
+                api.Tingban_SeekUp(30)
+            time.sleep(1)
 
-                # ### 1번 채널 선택 (3번에서 2번 > 1번 채널로 전환)
-                api.Seek_Up(3)
-                api.Seek_Up(20)
-            '''
-            '''
-            # Step 4 - Yendex 음악을 910초 대기 시간으로 수행한다. ##########
-            print("## Step 4 - Yendex Music을 play하고 10초 간격으로 Next Track곡을 80번 수행한다.(약 800초)")
-            api.Enter_Yandex_Music_Screen(3)
-            for i in range(0, 80):
-                api.Seek_Down(10)
-            
-            # Step 5 - BT Audio Play를 910초 대기 시간으로 수행한다. ##########
+            api.Enter_Home_Screen()
+
+            # Step 5 - BT Audio를 Play하고 20초 간격으로 Next Track곡을 45번 수행한다. ##########
             print("## Step 5 - BT Audio를 Play하고 20초 간격으로 Next Track곡을 45번 수행한다.(약 900초)")
-            api.Enter_BT_Music_Screen(5)
-            for i in range(0, 45):
-                api.Seek_Down(20)
+            api.Enter_BTMusicPlay_Screen()
+            for i in range(0, 1): # 45
+                api.BTMusic_SeekDown(20)
+            time.sleep(1)
 
-            # Step 6 - Navigation 항목을 20초 대기 시간으로 진입한다. ##########
-            print("## Step 6 - Navigation 항목을 20초 대기 시간으로 5회 반복 진입한다.")
-            for i in range(0, 5):
-                api.Enter_Navi_Screen(20)
-                api.Home_Button(10)
+            api.Enter_Home_Screen()
 
+            # Step 6 - Navigation 항목을 10초 대기 시간으로 10회 반복 수행한다. ##########
+            print("## Step 6 - Navigation 항목을 10초 대기 시간으로 10회 반복 수행한다.(약 200초)")
+            for i in range(0, 1): # 10
+                api.Enter_Navigation_Screen()
+            time.sleep(1)
 
+            api.Enter_Home_Screen()
 
-            # Step 7 - Radio 항목을 20초 대기 시간으로 진입한다. ##########
-            print("## Step 7 - Radio 항목을 20초 대기 시간으로 진입한다.")
-            api.Enter_FM_Radio_Screen(20)
+            # Step 7 - User 1 > 2 > Guest > 1을 15초 간격으로 3회 수행한다. ##########
+            print("## Step 7 - User 1 > 2 > Guest > 1을 20초 간격으로 3회 수행한다. 그리고 Radio Screen으로 원복(약 200초)")
+            for i in range(0, 1): # 3
+                api.Enter_UserProfile_Screen()
+            time.sleep(1)
 
-            print("# ")
-            print("## END ######################################################################################### ##")
-            print(" ")
-            print(" ")
-            '''
+            api.Enter_Home_Screen()
+
+            print("#Radio Screen으로 원복!")
+            api.Enter_Radio_Screen()
+
+            api.Enter_Home_Screen()
+
+            # Step 8 - Baidu Apps에 진입 하여 VR on/off와 Weather on/off를 을 30초 간격으로 5회씩 수행한다. ##########
+            print("## Step 8 - Baidu Apps에 진입 하여 VR on/off와 Weather on/off를 을 30초 간격으로 5회씩 수행한다.(약 300초)")
+            api.Enter_Baidu_App_Screen()
+            for i in range(0, 1): # 5
+                print("Baidu VR 진입/진출")
+                api.Enter_Baidu_VR_Screen
+                time.sleep(30)
+            for i in range(0, 1): # 5
+                print("Baidu weather 진입/진출")
+                os.system("adb shell input tap " + str(1113) + " " + str(240))
+                time.sleep(30)
+            time.sleep(3)
+
     except Exception as e:
         print(e)
         Test_Result = False

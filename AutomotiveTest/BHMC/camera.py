@@ -78,7 +78,8 @@ class USBCamera():
             print("mac_val :: " + str(max_val))
             return False
 
-    def camera_waitDetectImage(self, detectImagePath, waitTime=10):
+    def camera_waitDetectImage(self, detectImagePath, waitTime=10, capture=True):
+        ######################### capture=true 면 waitimage를 사용하고, false면 사용하지 않음 의미, 값이 아예 없으면 True로 인식
         startTime = time.time()
         endTime = startTime + waitTime
 
@@ -86,6 +87,7 @@ class USBCamera():
             cv2.imwrite("./data/temp.png", self.image_frame)
             sourceimage_temp = cv2.imread("./data/temp.png")
             sourceimage = cv2.cvtColor(sourceimage_temp, cv2.COLOR_RGB2GRAY)
+            ########################### 시작하면 temp.png에 해당 전체 화면 image 한번찍고 시작 함.
 
             template_temp = cv2.imread(detectImagePath)
             template = cv2.cvtColor(template_temp, cv2.COLOR_RGB2GRAY)
@@ -105,8 +107,10 @@ class USBCamera():
             time.sleep(0.7)
 
         print("# No Match Image")
-        now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
-        cv2.imwrite("./data/" + "NotMatched_" + str(now) + ".png", self.image_frame)
+        if capture:
+            now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
+            cv2.imwrite("./data/" + "NotMatched_" + str(now) + ".png", self.image_frame)
+
         return False
 
 
