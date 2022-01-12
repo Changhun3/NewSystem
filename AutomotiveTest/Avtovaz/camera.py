@@ -80,7 +80,7 @@ class USBCamera():
             print("mac_val :: " + str(max_val))
             return False
 
-    def camera_waitDetectImage(self, detectImagePath, waitTime=10, capture=True):
+    def camera_waitDetectImage(self, detectImagePath, waitTime=10, capture=True, fileName='NoMatchImage'):
         ######################### capture=true 면 waitimage를 사용하고, false면 사용하지 않음 의미, 값이 아예 없으면 True로 인식
         startTime = time.time()
         endTime = startTime + waitTime
@@ -111,7 +111,7 @@ class USBCamera():
         print("# No Match Image")
         if capture:
             now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
-            cv2.imwrite("./data/" + "NoMatchImage_" + str(now) + ".png", self.image_frame)
+            cv2.imwrite("./data/" + fileName + "_" + str(now) + ".png", self.image_frame)
 
         return False
 
