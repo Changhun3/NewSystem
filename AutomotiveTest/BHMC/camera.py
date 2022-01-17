@@ -57,7 +57,7 @@ class USBCamera():
         cv2.destroyWindow("VideoFrame")
         #print("## 카메라 4번")
 
-    def camera_detectImage(self, detectImagePath):
+    def camera_detectImage(self, detectImagePath): # temp.png(전체이미지)에서 내가 설정한 영역(detectImagePath)이 정상적으로 나오는지 확인
         cv2.imwrite("./data/temp.png", self.image_frame)
         sourceimage_temp = cv2.imread("./data/temp.png")
         sourceimage = cv2.cvtColor(sourceimage_temp, cv2.COLOR_RGB2GRAY)
@@ -83,6 +83,7 @@ class USBCamera():
 
     def camera_waitDetectImage(self, detectImagePath, waitTime=10, capture=True, fileName='NoMatchImage'):
         ######################### capture=true 면 waitimage를 사용하고, false면 사용하지 않음 의미, 값이 아예 없으면 True로 인식
+        ######################### ImageCompareResult가 api에 있으나, 해당 api는 기다리는것 없이 바로, waitdetectimage는 시간을 주고 확인.
         startTime = time.time()
         endTime = startTime + waitTime
 
