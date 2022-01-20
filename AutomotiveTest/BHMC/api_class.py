@@ -202,17 +202,19 @@ class API_Class():
         os.system("adb shell input tap " + str(bRadio_sMainLauncher[0]) + " " + str(bRadio_sMainLauncher[1]))
         time.sleep(3)
         ### Radio screen으로 정상 진입 했는지 image 비교.
+        '''
         if camera.camera_waitDetectImage('./referenceImage/BootImage.png', 10, True, 'Radioscreen'):
             print("This is RadioScreen")
         else:
             print("This is NOT RadioScreen")
-
+        '''
 
 
     def Enter_Refresh(self):
         print("#Refresh")
         os.system("adb shell input tap " + str(bRefresh[0]) + " " + str(bRefresh[1]))
         time.sleep(3)
+        print("#Refresh")
         os.system("adb shell input tap " + str(bRefresh[0]) + " " + str(bRefresh[1]))
         time.sleep(3)
 

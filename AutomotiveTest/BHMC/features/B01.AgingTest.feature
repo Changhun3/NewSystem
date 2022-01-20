@@ -1,6 +1,5 @@
 @aging
 Feature: BHMC_AgingTest
-# 질문 : 여기 Feature는 어디서 쓴다고 했지?
 
   @A01.01.TestAging
   Scenario: AgingTest 시작하기

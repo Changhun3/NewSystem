@@ -70,13 +70,17 @@ def step_impl(context):
             # ## FM-Radio 항목 진입
             api.Enter_Radio_Screen()
             for i in range(0, 10): # 10
+                print("#Radio P1 select")
                 os.system("adb shell input tap " + str(365) + " " + str(165))
                 time.sleep(20)
+                print("#Radio P2 select")
                 os.system("adb shell input tap " + str(365) + " " + str(245))
                 time.sleep(20)
+                print("#Radio P3 select")
                 os.system("adb shell input tap " + str(365) + " " + str(355))
                 time.sleep(20)
 
+            print("#Radio P1 select")
             os.system("adb shell input tap " + str(365) + " " + str(165))
             time.sleep(3)
 
@@ -132,7 +136,7 @@ def step_impl(context):
                 time.sleep(30)
             for i in range(0, 5): # 5
                 print("Baidu weather 진입/진출")
-                os.system("adb shell input tap " + str(1113) + " " + str(240))
+                api.Enter_Baidu_Weather_Screen
                 time.sleep(30)
             time.sleep(3)
 

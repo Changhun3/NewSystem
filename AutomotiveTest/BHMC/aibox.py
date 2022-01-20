@@ -46,7 +46,7 @@ class AIBOX():
     def ign_off(self):
         self.aibox.DO_WriteLine(0, 10, 4, 0)
 
-    def ign_off(self):
+    def ign_on(self):
         self.aibox.DO_WriteLine(0, 10, 4, 1)
 
 aibox = AIBOX()
