@@ -19,4 +19,4 @@ for i in range(0, 10):  # 10
     time.sleep(20)
 
 os.system("adb shell input tap " + str(365) + " " + str(165))
-time.sleep(3)
+time.sleep(3) #
