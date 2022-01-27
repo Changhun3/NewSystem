@@ -17,11 +17,14 @@ class USBCamera():
     converter.OutputPixelFormat = pylon.PixelType_BGR8packed
     converter.OutputBitAlignment = pylon.OutputBitAlignment_MsbAligned
 
+    # Freeze Image Size
+    FreezeImage = [362, 358, 1735, 934]
+
     image_frame = None
     test_value = True
     grabResult = None
 
-    test_rebootDetect = False
+    rebootDetect = True
 
     def camera_start(self):
         while self.test_value:
@@ -144,9 +147,31 @@ class USBCamera():
             return False
 
     def camera_RebootDetect(self):
-        #print("Error! 이미지 캡쳐")
-        now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
-        cv2.imwrite("./data/" + "Issue_" + str(now) + ".png", self.image_frame)
+        while True:
+            if self.rebootDetect == True:
+                sourceimage = cv2.cvtColor(self.image_frame, cv2.COLOR_RGB2GRAY)
+
+                template_temp = cv2.imread('./data/BootingImage.png')
+                template = cv2.cvtColor(template_temp, cv2.COLOR_RGB2GRAY)
+
+                # height, width, channel = sourceimage.shape
+                # print(height, width, channel)
+
+                res = cv2.matchTemplate(sourceimage, template, cv2.TM_CCOEFF_NORMED)
+                min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+                # print(min_val)
+                print(max_val)
+
+                if (max_val > 0.96):
+                    print("# Detected Reboot!!!")
+                    now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
+                    cv2.imwrite("./data/" + "RebootIssue_" + str(now) + ".png", self.image_frame)
+                    time.sleep(1)
+            time.sleep(3)
+
+    def camera_RebootEnable(self, value):
+        self.rebootDetect = value
+
 
     def camera_FreezeDetect(self):
         #print("Error! 이미지 캡쳐")
@@ -157,45 +182,17 @@ class USBCamera():
                 time.sleep(600)
                 continue
 
-            sourceimage_temp = cv2.imread(self.image_frame)
-            sourceimage = cv2.cvtColor(sourceimage_temp, cv2.COLOR_RGB2GRAY)
+            #sourceimage_temp = cv2.imread(self.image_frame)
+            #sourceimage = cv2.cvtColor(sourceimage_temp, cv2.COLOR_RGB2GRAY)
+            sourceimage = cv2.cvtColor(self.image_frame, cv2.COLOR_RGB2GRAY)
 
             template_temp = cv2.imread('./data/temp_freeze.png')
-            template = cv2.cvtColor(template_temp, cv2.COLOR_RGB2GRAY)
+            resize_temp = template_temp.copy()
+            resize_temp_cut = resize_temp[self.FreezeImage[1]:self.FreezeImage[3], self.FreezeImage[0]:self.FreezeImage[2]]
 
-            height, width, channel = sourceimage_temp.shape
-            # print(height, width, channel)
+            template = cv2.cvtColor(resize_temp_cut, cv2.COLOR_RGB2GRAY)
 
-            res = cv2.matchTemplate(sourceimage, template, cv2.TM_CCOEFF_NORMED)
-            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-            # print(min_val)
-            # print(max_val)
-
-            if (max_val > 0.96):
-                print("# Detected Freeze!!!")
-                now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
-                cv2.imwrite("./data/" + "FreezeIssue_" + str(now) + ".png", self.image_frame)
-
-            cv2.imwrite('./data/temp_freeze_1', self.image_frame)
-            time.sleep(600)
-
-        """
-        freezeImage = ['./data/temp_freeze_0.png', './data/temp_freeze_1.png']
-        
-        while True:
-            if not(os.path.isfile(freezeImage[1])):
-                cv2.imwrite('./data/temp_freeze_1.png', self.image_frame)
-                time.sleep(600)
-                continue
-            
-            cv2.imwrite(freezeImage[0], self.image_frame)
-            sourceimage_temp = cv2.imread(freezeImage[0])
-            sourceimage = cv2.cvtColor(sourceimage_temp, cv2.COLOR_RGB2GRAY)         
-                
-            template_temp = cv2.imread(freezeImage[1])
-            template = cv2.cvtColor(template_temp, cv2.COLOR_RGB2GRAY)
-
-            height, width, channel = sourceimage_temp.shape
+            #height, width, channel = sourceimage.shape
             # print(height, width, channel)
 
             res = cv2.matchTemplate(sourceimage, template, cv2.TM_CCOEFF_NORMED)
@@ -207,10 +204,10 @@ class USBCamera():
                 print("# Detected Freeze!!!")
                 now = datetime.datetime.now().strftime("%Y%m%d_%H-%M-%S")
                 cv2.imwrite("./data/" + "FreezeIssue_" + str(now) + ".png", self.image_frame)
+                time.sleep(1)
 
-            cv2.imwrite('./data/temp_freeze_1.png', self.image_frame)
-            time.sleep(600)    
-        """
+            cv2.imwrite('./data/temp_freeze.png', self.image_frame)
+            time.sleep(600)
 
 
 

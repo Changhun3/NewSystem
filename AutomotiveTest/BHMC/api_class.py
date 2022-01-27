@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
 import time
 from aibox import *
 from camera import *
 import threading
+import multiprocessing
 
 # #####################################
 configuration = eval(open("./data/data.conf").read())
@@ -83,13 +85,13 @@ bUSB_Icon = configuration["bUSB_Icon"]
 bBT_Icon = configuration["bBT_Icon"]
 bYandex_Icon = configuration["bYandex_Icon"]"""
 
-
 # Camera Setting
 Camera_Start = camera.camera_start
 Camera_Stop = camera.camera_stop
 Camera_Capture = camera.camera_capture
 Camera_Reboot = camera.camera_RebootDetect
 Camera_Freeze = camera.camera_FreezeDetect
+
 
 th1 = threading.Thread(target=Camera_Start)
 th2 = threading.Thread(target=Camera_Reboot)
@@ -144,14 +146,21 @@ class API_Class():
 
     def freezeDetect(self, value):
         print("# Freeze 감지 동작 Enable")
+        print(value)
         self.freezeIndicator = value
 
-        if self.rebootIndicator == True:
+        if self.freezeIndicator == True:
             print("Freeze 감지 동작 시작")
             th3.start()
         else:
             print("Freeze 감지 동작 중단")
             th3.join()
+
+    def freezeClose(self):
+        print("# Freeze 감지 동작 Close")
+        #pid = os.getpid()
+        #os.kill(pid, 2)
+        th3.join()
 
 
     # Camera 및 Image 비교 관련 API ###################################################################################
@@ -378,6 +387,7 @@ class API_Class():
     # AIBOX - BAT On/Off 등 AITEST BOX 관련 동작 API ##################################################################
     def BAT_On(self, wait_time=50):
         print("# Turned on Battery : " + str(wait_time) + "secs.")
+        camera.camera_RebootEnable(False)
 
         if wait_time > 8:
             count = 0
@@ -401,6 +411,7 @@ class API_Class():
                         if DeviceID in line:
                             print("Connected ADB Server!")
                             print(">>> " + line)
+                            camera.camera_RebootEnable(True)
                             return True
                         else:
                             continue
@@ -408,9 +419,11 @@ class API_Class():
                 print("Restart BAT Off/On..")
                 self.BAT_Off(5)
                 count += 1
+            camera.camera_RebootEnable(True)
             return False #booting fail 되어도 계속 진행하려면 return True 로 변경 해서 진행.
         else:
             aibox.bat_on()
+            camera.camera_RebootEnable(True)
             time.sleep(wait_time)
 
     def BAT_Off(self, wait_time=5):
