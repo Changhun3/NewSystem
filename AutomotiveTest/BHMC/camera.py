@@ -151,7 +151,7 @@ class USBCamera():
             if self.rebootDetect == True:
                 sourceimage = cv2.cvtColor(self.image_frame, cv2.COLOR_RGB2GRAY)
 
-                template_temp = cv2.imread('./data/BootingImage.png')
+                template_temp = cv2.imread('./referenceImage/BootImage.png')
                 template = cv2.cvtColor(template_temp, cv2.COLOR_RGB2GRAY)
 
                 # height, width, channel = sourceimage.shape
@@ -160,7 +160,7 @@ class USBCamera():
                 res = cv2.matchTemplate(sourceimage, template, cv2.TM_CCOEFF_NORMED)
                 min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
                 # print(min_val)
-                print(max_val)
+                #print(max_val)
 
                 if (max_val > 0.96):
                     print("# Detected Reboot!!!")
