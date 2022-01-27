@@ -401,6 +401,11 @@ class API_Class():
                     print("Detected BootImage!")
                 else:
                     print("Booting Fail!")
+                    self.BAT_Off(5)
+                    count += 1
+                    continue
+                    # booting image 비교해서 match가 되면 "Detected BootImage!" print 하고 def BAT_On을 종료
+                    # booting image 비교해서 match가 안되면, "Booting Fail!" print하고 BAT_Off하고 count 하나 올리고 "continue"때문에 While로 다시 올라감. 5번 시도
                 time.sleep(wait_time - 5)
 
                 if wait_time > 40:
@@ -415,10 +420,13 @@ class API_Class():
                             return True
                         else:
                             continue
-                print("Not Connected ADB Server..")
-                print("Restart BAT Off/On..")
-                self.BAT_Off(5)
-                count += 1
+                            # adb_connect에서 첫번째 line에서 "DeviceID"를 찾음. 당연히 첫째 라인(2번째 줄에 나오기 때문에)은 없기때문에 else로 가서 continue이므로 for 문으로 올라감.
+                            # 두번째 line에서 "DeviceID"를 찾음. 있으면 print 2개 찍고, return True로 def BAT_On을 종료
+                            # 두번째 line에서 "DeviceID"를 찾음. 없으면 else로 가서 continue이므로 for 문으로 올라감. 그러나 더이상 line이 없기 때문에 for문을 종료하고, print("Not Connected ADB Server..") 타서 if문 넘어 while 로 올라감.
+                    print("Not Connected ADB Server..")
+                    print("Restart BAT Off/On..")
+                    self.BAT_Off(5)
+                    count += 1
             camera.camera_RebootEnable(True)
             return False #booting fail 되어도 계속 진행하려면 return True 로 변경 해서 진행.
         else:
