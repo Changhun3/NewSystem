@@ -158,7 +158,7 @@ class API_Class():
 
     def freezeClose(self):
         print("# Freeze 감지 동작 Close")
-        #pid = os.getpid()
+        pid = os.getpid()
         #os.kill(pid, 2)
         th3.join()
 
